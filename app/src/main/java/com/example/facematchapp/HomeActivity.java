@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import org.opencv.android.CameraActivity;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
@@ -116,6 +114,7 @@ public class HomeActivity extends CameraActivity {
                     cascadeDir.delete();
                 }
 
+                cameraBridgeViewBase.disableView();
                 cameraBridgeViewBase.setCameraIndex(cameraIndex);
                 cameraBridgeViewBase.enableView();
             } catch (IOException e) {
