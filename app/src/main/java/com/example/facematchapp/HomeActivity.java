@@ -67,10 +67,10 @@ public class HomeActivity extends CameraActivity {
 
                 MatOfRect rects = new MatOfRect();
 
-                cascadeClassifier.detectMultiScale(transpose_gray, rects, 1.1, 2);
+                cascadeClassifier.detectMultiScale(transpose_gray, rects, 1.1, 3);
 
                 for (Rect rect : rects.toList()) {
-                    Imgproc.rectangle(transpose_rgba, rect, new Scalar(0, 255, 0), 3);
+                    Imgproc.rectangle(transpose_rgba, rect, new Scalar(0, 255, 0), 5);
                 }
 
                 return transpose_rgba.t();
@@ -119,13 +119,14 @@ public class HomeActivity extends CameraActivity {
     @Override
     public void onPause() {
         super.onPause();
+        mOpenCvCameraView.setCameraIndex(cameraIndex);
         mOpenCvCameraView.disableView();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        mOpenCvCameraView.enableView();
+        mOpenCvCameraView.enableView();
     }
 
     @Override
