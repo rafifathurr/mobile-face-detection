@@ -1,5 +1,5 @@
 {
-  "installationFolder": "/Users/macbook/Documents/android-project/FaceMatchApp/opencv/build/intermediates/prefab_package/release/prefab",
+  "installationFolder": "C:\\Users\\User\\Documents\\Android Project\\mobile-face-detection\\opencv\\build\\intermediates\\prefab_package\\release\\prefab",
   "gradlePath": ":opencv",
   "packageInfo": {
     "packageName": "opencv",
@@ -8,7 +8,7 @@
     "modules": [
       {
         "moduleName": "opencv_jni_shared",
-        "moduleHeaders": "/Users/macbook/Documents/android-project/FaceMatchApp/opencv/native/jni/include",
+        "moduleHeaders": "C:\\Users\\User\\Documents\\Android Project\\mobile-face-detection\\opencv\\native\\jni\\include",
         "moduleExportLibraries": [],
         "abis": []
       }
