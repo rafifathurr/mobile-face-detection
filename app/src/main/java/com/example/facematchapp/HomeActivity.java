@@ -8,6 +8,7 @@ import android.widget.Toast;
 import org.opencv.android.CameraActivity;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfRect;
@@ -62,15 +63,27 @@ public class HomeActivity extends CameraActivity {
                 rgba = inputFrame.rgba();
                 gray = inputFrame.gray();
 
-                transpose_rgba = rgba.t();
-                transpose_gray = gray.t();
+                int height = gray.rows();
+                int faceSize = Math.round(height * 0.5F);
+
+                transpose_gray = gray.clone();
+                Core.transpose(gray, transpose_gray);
+                Core.flip(transpose_gray, transpose_gray, -1);
+
+                transpose_rgba = rgba.clone();
+                Core.transpose(rgba, transpose_rgba);
+                Core.flip(transpose_rgba, transpose_rgba, -1);
 
                 MatOfRect rects = new MatOfRect();
 
-                cascadeClassifier.detectMultiScale(transpose_gray, rects, 1.1, 3);
+                cascadeClassifier.detectMultiScale(transpose_gray, rects, 1.1, 5, 0, new Size(faceSize, faceSize), new Size());
 
                 for (Rect rect : rects.toList()) {
-                    Imgproc.rectangle(transpose_rgba, rect, new Scalar(0, 255, 0), 5);
+                    Log.i(TAG, "Rect Info : " + rect.height);
+
+//                    Imgproc.rectangle(rgba, rect, new Scalar(0, 255, 0), 10);
+                    Imgproc.rectangle(transpose_rgba, rect,
+                            new Scalar(0, 255, 0), 5);
                 }
 
                 return transpose_rgba.t();
