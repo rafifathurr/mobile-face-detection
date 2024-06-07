@@ -39,12 +39,15 @@ public class HomeActivity extends CameraActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set Window Manager
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_home);
 
         // Setting Up Camera View
         mOpenCvCameraView = findViewById(R.id.opencvCameraView);
         mOpenCvCameraView.setVisibility(CameraBridgeViewBase.VISIBLE);
+
+        // Initialize camera view listener
         mOpenCvCameraView.setCvCameraViewListener(new CameraBridgeViewBase.CvCameraViewListener2() {
             @Override
             public void onCameraViewStarted(int width, int height) {
@@ -63,38 +66,49 @@ public class HomeActivity extends CameraActivity {
                 rgba = inputFrame.rgba();
                 gray = inputFrame.gray();
 
+                // Setup min size scope face detection
                 int height = gray.rows();
                 int faceSize = Math.round(height * 0.7F);
 
+                // Transpose gray scale flip for selfie camera
                 transpose_gray = gray.clone();
                 Core.transpose(gray, transpose_gray);
                 Core.flip(transpose_gray, transpose_gray, -1);
 
+                // Transpose rgba scale flip for selfie camera
                 transpose_rgba = rgba.clone();
                 Core.transpose(rgba, transpose_rgba);
                 Core.flip(transpose_rgba, transpose_rgba, -1);
 
+                // Setup Rect coordinate
                 MatOfRect rects = new MatOfRect();
 
+                // Detection Face Begin
                 cascadeClassifier.detectMultiScale(transpose_gray, rects, 1.3, 5, 0, new Size(faceSize, faceSize), new Size());
 
+                // Each Rect
                 for (Rect rect : rects.toList()) {
-                    Log.i(TAG, "Rect Info : " + rect.height);
 
+                    // Draw rectangle face detection
                     Imgproc.rectangle(transpose_rgba, rect,
                             new Scalar(0, 255, 0), 5);
                 }
 
+                // Return RGBA camera view transpose
                 return transpose_rgba.t();
             }
         });
 
         // Important for configuration camera
         if (OpenCVLoader.initLocal()) {
+
+            // Open and set camera view
             mOpenCvCameraView.setCameraIndex(cameraIndex);
             mOpenCvCameraView.enableView();
 
             try {
+
+                // Open stream haarcascade model face detector
                 InputStream inputStream = getResources().openRawResource(R.raw.haarcascade_frontalface_default);
                 File file = new File(getDir("cascade", MODE_PRIVATE), "haarcascade_frontalface_default.xml");
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -102,16 +116,19 @@ public class HomeActivity extends CameraActivity {
                 byte[] data = new byte[4096];
                 int read_byte;
 
+                // Generate byte output stream
                 while ((read_byte = inputStream.read(data)) != -1) {
                     fileOutputStream.write(data, 0, read_byte);
                 }
 
+                // Initialize cascade file
                 cascadeClassifier = new CascadeClassifier(file.getAbsolutePath());
 
                 if (cascadeClassifier.empty()) {
                     cascadeClassifier = null;
                 }
 
+                // Close all file input and output stream
                 inputStream.close();
                 fileOutputStream.close();
                 file.delete();
