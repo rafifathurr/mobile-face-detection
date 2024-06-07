@@ -113,6 +113,7 @@ public class HomeActivity extends CameraActivity {
                 File file = new File(getDir("cascade", MODE_PRIVATE), "haarcascade_frontalface_default.xml");
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
 
+                // Initialize byte
                 byte[] data = new byte[4096];
                 int read_byte;
 
