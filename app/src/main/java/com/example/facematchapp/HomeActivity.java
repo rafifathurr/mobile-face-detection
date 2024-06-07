@@ -76,12 +76,11 @@ public class HomeActivity extends CameraActivity {
 
                 MatOfRect rects = new MatOfRect();
 
-                cascadeClassifier.detectMultiScale(transpose_gray, rects, 1.1, 5, 0, new Size(faceSize, faceSize), new Size());
+                cascadeClassifier.detectMultiScale(transpose_gray, rects, 1.3, 5, 0, new Size(faceSize, faceSize), new Size());
 
                 for (Rect rect : rects.toList()) {
                     Log.i(TAG, "Rect Info : " + rect.height);
 
-//                    Imgproc.rectangle(rgba, rect, new Scalar(0, 255, 0), 10);
                     Imgproc.rectangle(transpose_rgba, rect,
                             new Scalar(0, 255, 0), 5);
                 }
@@ -96,8 +95,8 @@ public class HomeActivity extends CameraActivity {
             mOpenCvCameraView.enableView();
 
             try {
-                InputStream inputStream = getResources().openRawResource(R.raw.lbpcascade_frontalface);
-                File file = new File(getDir("cascade", MODE_PRIVATE), "lbpcascade_frontalface.xml");
+                InputStream inputStream = getResources().openRawResource(R.raw.haarcascade_frontalface_default);
+                File file = new File(getDir("cascade", MODE_PRIVATE), "haarcascade_frontalface_default.xml");
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
 
                 byte[] data = new byte[4096];
