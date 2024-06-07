@@ -23,7 +23,7 @@
         android:fontFamily="sans-serif-medium"
         android:text="Face Recognition System"
         android:textStyle="bold"
-        android:textSize="28sp" />
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/subTitleTxtVw"
@@ -33,7 +33,7 @@
         android:paddingBottom="20dp"
         android:textAlignment="center"
         android:fontFamily="sans-serif-medium"
-        android:text="Verify your security indentity"
+        android:text="Recognize and verify your face"
         android:textStyle="italic"
         android:textSize="18sp" />
 

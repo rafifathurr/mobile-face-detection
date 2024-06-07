@@ -64,7 +64,7 @@ public class HomeActivity extends CameraActivity {
                 gray = inputFrame.gray();
 
                 int height = gray.rows();
-                int faceSize = Math.round(height * 0.5F);
+                int faceSize = Math.round(height * 0.7F);
 
                 transpose_gray = gray.clone();
                 Core.transpose(gray, transpose_gray);
